@@ -1,4 +1,4 @@
-package effectivejava.item16;
+package effectivejava.chapter1.item16;
 
 /**
  * @author yinxing

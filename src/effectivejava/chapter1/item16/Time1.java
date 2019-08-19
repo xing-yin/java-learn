@@ -1,4 +1,4 @@
-package effectivejava.item16;
+package effectivejava.chapter1.item16;
 
 /**
  * 反例: 虽然公共类直接暴露属性并不是一个好主意，但是如果属性是不可变的，那么危害就不那么大了。

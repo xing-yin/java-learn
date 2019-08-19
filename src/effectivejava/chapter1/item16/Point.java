@@ -1,4 +1,4 @@
-package effectivejava.item16;
+package effectivejava.chapter1.item16;
 
 /**
  * 正例:通过set/get方法来封装数据
