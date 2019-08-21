@@ -1,12 +1,10 @@
-package effectivejava.chapter1.item12;
+package effectivejava.chapter1.item13;
 
 /**
- * 类实现 Cloneable 接口
- *
  * @author yinxing
  * @date 2019/8/20
  */
-public final class PhoneNumber implements Cloneable {
+public final class PhoneNumber {
 
     private final int areaCode, prefix, lineNum;
 
@@ -23,26 +21,15 @@ public final class PhoneNumber implements Cloneable {
         return (int) val;
     }
 
-    /**
-     * 因为 Java 支持协变返回类型。 换句话说，重写方法的返回类型可以是重写方法的返回类型的子类。
-     * 优点:不需要客户端自己转换。
-     *
-     * @return
-     */
     @Override
-    public PhoneNumber clone() {
-        try {
-            return (PhoneNumber) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            // can not happen
-            throw new AssertionError();
-        }
+    public String toString() {
+        return "PhoneNumber:" + areaCode +
+                "-" + prefix +
+                "-" + lineNum;
     }
 
     public static void main(String[] args) {
         PhoneNumber pn = new PhoneNumber(1, 22, 333);
-        pn.clone();
+        System.out.println(pn);
     }
-
 }
