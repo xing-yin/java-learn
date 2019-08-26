@@ -9,7 +9,7 @@ import java.util.Objects;
  * @date 2019/8/26
  */
 
-public class AbstractListBySelf {
+public class MyAbstractList {
 
     /**
      * 在框架实现之上构建的具体实现
@@ -19,6 +19,7 @@ public class AbstractListBySelf {
         Objects.requireNonNull(a);
         // The diamond operator is only legal here in Java 9 and later
         // If you're using an earlier release, specify <Integer>
+        // 匿名内部类
         return new AbstractList<Integer>() {
             @Override
             public Integer get(int index) {
