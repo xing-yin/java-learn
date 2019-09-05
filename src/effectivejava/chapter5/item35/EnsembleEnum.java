@@ -1,4 +1,4 @@
-package effectivejava.chapter4.item35;
+package effectivejava.chapter5.item35;
 
 /**
  * 反例:Abuse of ordinal to derive an associated value - DON'T DO THIS

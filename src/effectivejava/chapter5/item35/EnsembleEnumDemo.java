@@ -1,4 +1,4 @@
-package effectivejava.chapter4.item35;
+package effectivejava.chapter5.item35;
 
 /**
  * 正例: 永远不要从枚举的序号中得出与它相关的值; 请将其保存在实例属性中

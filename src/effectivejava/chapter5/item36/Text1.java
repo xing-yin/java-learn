@@ -1,4 +1,4 @@
-package effectivejava.chapter4.item36;
+package effectivejava.chapter5.item36;
 
 import java.util.EnumSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package effectivejava.chapter4.item34;
+package effectivejava.chapter5.item34;
 
 /**
  * 正例: Enum type with constant-specific method implementations
