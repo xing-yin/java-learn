@@ -24,7 +24,7 @@ public class NonClone {
     }
 
     /**
-     * 方式3：复制功能最好由工厂提供
+     * 方式2：复制功能最好由工厂提供
      */
     public static NonClone newInstance(NonClone nonClone) {
         // ...

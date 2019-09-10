@@ -31,7 +31,7 @@ public class ClassFieldMinAccessibility {
     public static final List<String> VALUES1 = Collections.unmodifiableList(Arrays.asList(PRIVATE_VALUES1));
 
     /**
-     * 解决办法3:使公共数组私有并添加一个返回私有数组拷贝的方法：
+     * 解决办法2:使公共数组私有并添加一个返回私有数组拷贝的方法：
      */
     private static final String[] PRIVATE_VALUES2 = {"..."};
 
