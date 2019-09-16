@@ -1,6 +1,7 @@
 package effectivejava.chapter7.item59;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author yinxing
@@ -20,6 +21,15 @@ public class ClassLibraryDemo {
 
     public static int randomNum(int n) {
         return Math.abs(random.nextInt()) % n;
+    }
+
+    public static void main(String[] args) {
+        // 方式1:反例
+        int randomNum1 = randomNum(4);
+        // 正例：使用类
+        ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
+        int randomNum2 = threadLocalRandom.nextInt(4);
+        System.out.println("randomNum1:" + randomNum1 + " randomNum2:" + randomNum2);
     }
 
 }
