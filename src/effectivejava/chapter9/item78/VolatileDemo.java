@@ -38,7 +38,7 @@ public class VolatileDemo {
     /**
      * 正例:使用 AtomicLong [推荐 java.util.concurrent.atomic 包类]
      */
-    private static final AtomicLong nextSerialNumber3=new AtomicLong();
+    private static final AtomicLong nextSerialNumber3 = new AtomicLong();
 
     public static synchronized long generateSerialNumber3() {
         return nextSerialNumber3.incrementAndGet();
@@ -46,9 +46,9 @@ public class VolatileDemo {
 
     public static void main(String[] args) {
 
-        for (int i=0;i<10;i++) {
+        for (int i = 0; i < 10; i++) {
             generateSerialNumber3();
         }
-        System.out.println( generateSerialNumber3());
+        System.out.println(generateSerialNumber3());
     }
 }
