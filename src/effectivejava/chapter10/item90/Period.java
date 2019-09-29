@@ -54,12 +54,12 @@ public class Period {
 
         /**
          * readResolve method for Period.SerializationProxy
-         * <p>
+         *
          * 最后在 SerializationProxy 类中提供一个 readResolve 方法，返回一个逻辑上等价的外围类的实例。
          * 这个方法的出现，导致序列化系统在反序列化时将序列化代理转为外围类的实例。
          */
-        private Object readResolve() {
-            return new Period(start, end);
+        private Object readResolve(){
+            return new Period(start,end);
         }
 
     }
