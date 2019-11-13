@@ -2,6 +2,7 @@ package effectivejava.chapter1.item2;
 
 /**
  * 【反例2】坏代码的味道
+ * 通过 setter 方法来给 JavaBeans 赋值
  *
  * @author yinxing
  * @date 2019/8/12
@@ -55,6 +56,7 @@ public class NutritionFacts2 {
          *
          * 缺点:
          *      a.构造方法被分割成了多次调用，所以在构造过程中 JavaBean 可能处于不一致的状态；
+         *        （该类没有通过检查构造参数参数的有效性来强制一致性的选项）
          *      b.排除了让类不可变的可能性，需要程序员增加工作保证线程安全
          */
         NutritionFacts2 cola = new NutritionFacts2();

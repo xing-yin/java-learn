@@ -5,11 +5,20 @@ package effectivejava.chapter1.item2;
  * <p>
  * 当设计类的构造方法或静态工厂的参数超过几个时，Builder 模式是一个不错的选择，特别是如果许多参数是可选的或相同类型的。
  * builder模式客户端代码比使用重叠构造方法模式（telescoping constructors）更容易读写，并且builder模式比 JavaBeans 更安全。
+ * <p>
+ * 优点：
+ * a.结合了重叠构造方法模式的安全性；
+ * b.JavaBeans 模式的可读性
  *
  * @author yinxing
  * @date 2019/8/13
  */
 
+
+/**
+ * NutritionFacts 类是不可变的，所有的参数默认值都在一个地方。
+ * builder 的 setter 方法返回 builder 本身，这样就可以进行 '链式调用'，从而生成一个流畅的 API。
+ */
 public class NutritionFacts {
 
     private final int servingSize;
@@ -83,8 +92,13 @@ public class NutritionFacts {
         this.carbohydrate = builder.carbohydrate;
     }
 
+
     public static void main(String[] args) {
         NutritionFacts cola = new Builder(200, 10)
-                .calories(100).fat(200).sodium(300).carbohydrate(400).build();
+                .calories(100)
+                .fat(200)
+                .sodium(300)
+                .carbohydrate(400)
+                .build();
     }
 }
