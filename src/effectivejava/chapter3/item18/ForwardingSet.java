@@ -14,6 +14,7 @@ import java.util.Set;
 
 /**
  * Reusable forwarding class
+ * 实现分为两部分，类本身和一个可重用的转发类(这里是 Set)
  */
 public class ForwardingSet<E> implements Set<E> {
 

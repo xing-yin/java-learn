@@ -80,7 +80,6 @@ public final class Complex {
         }
 
         Complex c = (Complex) o;
-        // 思考一下我们为什么要实现 instanceof: 见 item 10
         return Double.compare(c.re, re) == 0 && Double.compare(c.im, im) == 0;
     }
 
