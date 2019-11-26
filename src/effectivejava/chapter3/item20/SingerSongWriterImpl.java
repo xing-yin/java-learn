@@ -6,6 +6,7 @@ package effectivejava.chapter3.item20;
  */
 
 public class SingerSongWriterImpl implements SingerSongWriter {
+
     @Override
     public void sing() {
 

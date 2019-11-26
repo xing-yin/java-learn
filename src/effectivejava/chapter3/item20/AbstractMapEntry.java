@@ -48,4 +48,11 @@ public abstract class AbstractMapEntry<K, V> implements Map.Entry<K, V> {
     public String toString() {
         return getKey() + "=" + getValue();
     }
+
 }
+
+/**
+ * 由于骨架实现类是为了继承而设计的，所以你应该遵循条目 19 中的所有设计和文档说明。
+ * 但是好的文档在骨架实现中是绝对必要的，无论它是否包含 一个接口或一个单独的抽象类的默认方法。
+ */
+
