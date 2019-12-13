@@ -7,7 +7,7 @@ int和Integer有什么区别?谈谈Integer的值缓存范围。
 
 ## 典型回答
 
-int是我们常说的整形数字，是Java的8个原始数据类型(Primitive Types，boolean、byte 、short、char、int、foat、double、long)之一。**Java语言虽然号称一切都是对象， 但原始数据类型是例外。**
+int是我们常说的整形数字，是Java的8个原始数据类型(Primitive Types，boolean、byte 、short、char、int、float、double、long)之一。**Java语言虽然号称一切都是对象， 但原始数据类型是例外。**
 
 Integer是int对应的包装类，它有一个int类型的字段存储数据，并且提供了基本操作，比如数学运算、int和字符串之间转换等。在Java 5中，引入了**自动装箱和自动拆箱功能** (boxing/unboxing)，Java可以根据上下文，自动进行转换，极大地简化了相关编程。
 
@@ -77,7 +77,7 @@ class Counter {
 ``` java
  class CompactCounter {
     private volatile long counter;
-    private static final AtomicLongFieldUpdater<CompactCounter> updater =  	 AtomicLongFieldUpdater.newUpdater(CompactCounter.class, "counter");
+    private static final AtomicLongFieldUpdater<CompactCounter> updater = AtomicLongFieldUpdater.newUpdater(CompactCounter.class, "counter");
     public void increase() {
         updater.incrementAndGet(this);
     }
@@ -92,38 +92,40 @@ class Counter {
 
 - 首先，继续深挖缓存，Integer的缓存范围虽然默认是-128到127，但是在特别的应用场景，比如我们明确知道应用会频繁使用更大的数值，这时候应该怎么办呢? 
 
-缓存上限值实际是可以根据需要调整的，JVM提供了参数设置:
+    缓存上限值实际是可以根据需要调整的，JVM提供了参数设置:
 
-    -XX:AutoBoxCacheMax=N
+    > -XX:AutoBoxCacheMax=N
 
-这些实现，都体现在java.lang.Integer源码之中，并实现在IntegerCache的静态初始化块里。
+    这些实现，都体现在java.lang.Integer源码之中，并实现在IntegerCache的静态初始化块里。
 
-``` java
-private static class IntegerCache {
-        static final int low = -128;
-        static final int high;
-        static final Integer cache[];
-        static {
-            // high value may be configured by property
-            int h = 127;
-            String integerCacheHighPropValue =                VM.getSavedProperty("java.lang.Integer.IntegerCache.high");
+    ```java
+    private static class IntegerCache {
+            static final int low = -128;
+            static final int high;
+            static final Integer cache[];
+            static {
+                // high value may be configured by property
+                int h = 127;
+                String integerCacheHighPropValue = VM.getSavedProperty("java.lang.Integer.IntegerCache.high");
+                ...
+                // range [-128, 127] must be interned (JLS7 5.1.7)
+                assert IntegerCache.high >= 127;
+            }
             ...
-            // range [-128, 127] must be interned (JLS7 5.1.7)
-            assert IntegerCache.high >= 127;
-        }
-        ...
-  }
-```
+      }
+    ```
 
-- 第二，我们在分析字符串的设计实现时，提到过字符串是不可变的，保证了基本的信息安全和并发编程中的线程安全。如果你去看包装类里存储数值的成员变量“value”，你会发现， 不管是Integer还Boolean等，都被声明为“private fnal”，所以，它们同样是不可变类型!
+- 第二，我们在分析字符串的设计实现时，提到过字符串是不可变的，保证了基本的信息安全和并发编程中的线程安全。如果你去看包装类里存储数值的成员变量“value”，你会发现， 不管是Integer还Boolean等，都被声明为“private final”，所以，它们同样是不可变类型!
   
-这种设计是可以理解的。想象一下这个应用场景，比如Integer提供了getInteger()方法，用于方便地读取系统属性，我们可以用属性来设置服务器某个服务的端口，如果我可以轻易地把获取到的Integer对象改变为其他数值，这会带来产品可靠性方面的严重问题。
+    这种设计是可以理解的。想象一下这个应用场景，比如Integer提供了getInteger()方法，用于方便地读取系统属性，我们可以用属性来设置服务器某个服务的端口，如果我可以轻易地把获取到的Integer对象改变为其他数值，这会带来产品可靠性方面的严重问题。
 
-- 第三，Integer等包装类，定义了类似 SIZE 或者 BYTES 这样的常量，这反映了什么样的设计考虑呢?如果你使用过其他语言，比如C、C++，类似整数的位数，其实是不确定的，可能在不同的平台，比如32位或者64位平台，存在非常大的不同。那么，在32位JDK或者64位JDK里，数据位数会有不同吗?或者说，这个问题可以扩展为，我使用32位JDK开发编 译的程序，运行在64位JDK上，需要做什么特别的移植工作吗?
+- 第三，Integer等包装类，定义了类似 SIZE 或者 BYTES 这样的常量，这反映了什么样的设计考虑呢?
 
-> 其实，这种移植对于Java来说相对要简单些，因为原始数据类型是不存在差异的，这些明确定义在Java语言规范里面，不管是32位还是64位环境，开发者无需担心数据的位数差异。
+    如果你使用过其他语言，比如C、C++，类似整数的位数，其实是不确定的，可能在不同的平台，比如32位或者64位平台，存在非常大的不同。那么，在32位JDK或者64位JDK里，数据位数会有不同吗?或者说，这个问题可以扩展为，我使用32位JDK开发编 译的程序，运行在64位JDK上，需要做什么特别的移植工作吗?
 
-对于应用移植，虽然存在一些底层实现的差异，比如64位HotSpot JVM里的对象要比32位HotSpot JVM大(具体区别取决于不同JVM实现的选择)，但是总体来说，并没有行为差异，应用移植还是可以做到宣称的“一次书写，到处执行”，**应用开发者更多需要考虑的是容量、能力等方面的差异。**
+    其实，这种移植对于Java来说相对要简单些，因为原始数据类型是不存在差异的，这些明确定义在Java语言规范里面，不管是32位还是64位环境，开发者无需担心数据的位数差异。
+
+    对于应用移植，虽然存在一些底层实现的差异，比如64位HotSpot JVM里的对象要比32位HotSpot JVM大(具体区别取决于不同JVM实现的选择)，但是总体来说，并没有行为差异，应用移植还是可以做到宣称的“一次书写，到处执行”，**应用开发者更多需要考虑的是容量、能力等方面的差异。**
 
 ### 3.原始类型线程安全 
 
@@ -132,23 +134,25 @@ private static class IntegerCache {
 这里可能存在着不同层面的问题:
 
 * 原始数据类型的变量，显然要使用并发相关手段，才能保证线程安全。如果有线程安全的计算需要，建议考虑使用类 似AtomicInteger、AtomicLong这样的线程安全类。
-* 特别的是，部分比较宽的数据类型，比如foat、double，甚至不能保证更新操作的原子性，可能出现程序读取到只更新了一半数据位的数值!
+* 特别的是，部分比较宽的数据类型，比如 float、double ，甚至不能保证更新操作的原子性，可能出现程序读取到只更新了一半数据位的数值!
 
 ### 4.Java原始数据类型和引用类型局限性
 
-前面我谈了非常多的技术细节，最后再从Java平台发展的角度来看看，原始数据类型、对象的局限性和演进。
+> 前面我谈了非常多的技术细节，最后再从Java平台发展的角度来看看，原始数据类型、对象的局限性和演进。
 
 对于Java应用开发者，设计复杂而灵活的类型系统似乎已经习以为常了。但是坦白说，毕竟这种类型系统的设计是源于很多年前的技术决定，现在已经逐渐暴露出了一些副作用，例如:
 
 - 原始数据类型和Java泛型并不能配合使用 
 
-这是因为Java的泛型某种程度上可以算作伪泛型，它完全是一种编译期的技巧，Java编译期会自动将类型转换为对应的特定类型，这就决定了使用泛型，必须保证相应类型可以转换为Object。 
+    这是因为Java的泛型某种程度上可以算作伪泛型，它完全是一种编译期的技巧，Java编译期会自动将类型转换为对应的特定类型，这就决定了使用泛型，必须保证相应类型可以转换为Object。 
 
 - 无法高效地表达数据，也不便于表达复杂的数据结构，比如vector和tuple
 
-我们知道Java的对象都是引用类型，如果是一个原始数据类型数组，它在内存里是一段连续的内存，而对象数组则不然，数据存储的是引用，对象往往是分散地存储在堆的不同位置。这种设计虽然带来了极大灵活性，但是也导致了数据操作的低效，尤其是无法充分利用现代CPU缓存机制。
+    我们知道Java的对象都是引用类型，如果是一个原始数据类型数组，它在内存里是一段连续的内存，而对象数组则不然，数据存储的是引用，对象往往是分散地存储在堆的不同位置。这种设计虽然带来了极大灵活性，但是也导致了数据操作的低效，尤其是无法充分利用现代CPU缓存机制。
 
-Java为对象内建了各种多态、线程安全等方面的支持，但这不是所有场合的需求，尤其是数据处理重要性日益提高，更加高密度的值类型是非常现实的需求。
+- Java为对象内建了各种多态、线程安全等方面的支持，但这不是所有场合的需求，尤其是数据处理重要性日益提高，更加高密度的值类型是非常现实的需求。
+
+> 比如 go 语言进一步将 int 类型细分；probuf 协议对传输数据对压缩规则
 
 针对这些方面的增强，目前正在OpenJDK领域紧锣密鼓地进行开发，有兴趣的话你可以关注相关工程:http://openjdk.java.net/projects/valhalla/ 。
 

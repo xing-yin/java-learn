@@ -1,5 +1,6 @@
 package pactice;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,5 +20,10 @@ public class Demo2 {
         List list1 = Arrays.asList(1, 2, null, 4);
         System.out.println(list1.indexOf(null));
         System.out.println(null==null);
+
+        int [] ints = {1,2,3};
+        List list2 =new ArrayList(Arrays.asList(ints));
+        System.out.println(list2.size());
+
     }
 }
