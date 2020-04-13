@@ -30,3 +30,15 @@
 ### 20200413 - 04
 
 - 实验 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintReferenceGC 参数对于应用的作用
+
+### 20200413 - 05
+
+- 字符串 JVM 对象缓存机制的理解以及如何良好地使用?
+
+- 阅读小结 String 源码
+
+- jdk 9 后的 string 实现对比之前
+
+- 阅读小结 StringBuffer、StringBuilder 源码
+
+- InvokeDynamic 相关内容温习，已经遗忘 
