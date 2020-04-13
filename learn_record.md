@@ -26,3 +26,7 @@
 - 怎么实现深度拷贝和浅拷贝？
 
 - 什么是幻象引用(PhantomReference)，这是一种常见的所谓post-mortem清理机制？
+
+### 20200413 - 04
+
+- 实验 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintReferenceGC 参数对于应用的作用

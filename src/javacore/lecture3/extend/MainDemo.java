@@ -1,6 +1,8 @@
 package javacore.lecture3.extend;
 
 /**
+ * 测试 finalize
+ *
  * @author Alan Yin
  * @date 2020/4/9
  */
