@@ -7,5 +7,8 @@ package javacore.lecture6.jdk;
 
 public interface HelloInterface {
 
+    /**
+     * 代理的目标方法
+     */
     void sayHello();
 }

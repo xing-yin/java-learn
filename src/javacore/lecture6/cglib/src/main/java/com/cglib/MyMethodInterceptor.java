@@ -21,8 +21,17 @@
 //    @Override
 //    public Object intercept(Object obj, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
 //        System.out.println("intercept param is " + Arrays.toString(args));
+//        before();
+//        Object result = methodProxy.invokeSuper(obj, args);
 //        // 这里可以实现增强的逻辑处理
-//        return methodProxy.invokeSuper(obj, args);
+//        after();
+//        return result;
+//    }
+//
+//    private void after() {
+//    }
+//
+//    private void before() {
 //    }
 //
 //}
