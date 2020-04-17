@@ -12,7 +12,7 @@ JDK源码阅读顺序
 7) Byte 2
 8) Double 2
 9) Float 2
-10) Integer 2
+10) Integer 2 [done]
 11) Long 2
 12) Short 2
 13) Thread 2

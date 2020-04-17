@@ -14,8 +14,8 @@ Integer
 ## 属性
 
 ```java
-//MIN_VALUE静态变量表示int能取的最小值，为-2的31次方，被final修饰说明不可变。
-public static final int   MIN_VALUE = 0x80000000;
+//MIN_VALUE静态变量表示int能取的最小值，为-2的31次方，被 final 修饰说明不可变。
+public static final int  MIN_VALUE = 0x80000000;
 //类似的还有MAX_VALUE，表示int最大值为2的31次方减1。
 public static final int   MAX_VALUE = 0x7fffffff;
 ```
