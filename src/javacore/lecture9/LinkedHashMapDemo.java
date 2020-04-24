@@ -15,7 +15,7 @@ import java.util.Map;
  * 这种行为适用于一些特定应用场景：
  * 例如，我们构建一个空间占用敏感的资源池，希望可以自动将最不常被访问的对象释放掉，这就可以利用LinkedHashMap提供的机制来实现，
  */
-public class LinkedHashMapSample {
+public class LinkedHashMapDemo {
 
     public static void main(String[] args) {
         LinkedHashMap<String, String> accessOrderMap = new LinkedHashMap<String, String>(16, 0.75f, true) {
@@ -27,15 +27,13 @@ public class LinkedHashMapSample {
         accessOrderMap.put("project1", "value1");
         accessOrderMap.put("project2", "value2");
         accessOrderMap.put("project3", "value3");
-        accessOrderMap.forEach((k, v) ->
-                System.out.println(k + ":" + v));
+        accessOrderMap.forEach((k, v) -> System.out.println(k + ":" + v));
         System.out.println("init done===========");
         // 模拟访问(project3 先被访问，则先被移除)
         accessOrderMap.get("project3");
         accessOrderMap.get("project1");
         accessOrderMap.get("project2");
-        accessOrderMap.forEach((k, v) ->
-                System.out.println(k + ":" + v));
+        accessOrderMap.forEach((k, v) -> System.out.println(k + ":" + v));
         System.out.println("visit done===========");
         // 触发删除
         accessOrderMap.put("project4", "value4");

@@ -72,3 +72,14 @@
 - 对象的内存结构是什么样的吗?比如，对象头的结构。如何计算或者获取某个Java对象的大小?
     
     https://www.jianshu.com/p/91e398d5d17c
+
+### 20200420 - 08
+
+- 阅读小结 Vector、ArrayList、LinkedList 源码
+
+### 20200422 - 09
+
+- 阅读小结 Hashtable、HashMap、TreeMap  源码
+
+- HashMap 源码中的 static final int MIN_TREEIFY_CAPACITY = 64;真实含义，这个树化大小
+和  static final int TREEIFY_THRESHOLD = 8; 有什么关系？

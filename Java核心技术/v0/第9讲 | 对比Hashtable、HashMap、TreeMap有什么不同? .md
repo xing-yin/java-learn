@@ -54,64 +54,64 @@ HashMap等其他Map实现则是都扩展了**AbstractMap**，里面包含了通�
 
 * LinkedHashMap通常提供的是**遍历顺序符合插入顺序**，它的实现是通过为**条目(键值对)维护一个双向链表**。注意，通过特定构造函数，我们可以创建反映访问顺序的实例，所 谓的put、get、compute等，都算作“访问”。
 
-这种行为适用于一些特定应用场景，例如，我们构建一个**空间占用敏感的资源池**，希望可以自动将最不常被访问的对象释放掉，这就可以利用LinkedHashMap提供的机制来实现， 参考下面的示例:
+    这种行为适用于一些特定应用场景，例如，我们构建一个**空间占用敏感的资源池**，希望可以自动将最不常被访问的对象释放掉，这就可以利用LinkedHashMap提供的机制来实现， 参考下面的示例:
 
-``` java
-import java.util.LinkedHashMap;
-import java.util.Map;  
-public class LinkedHashMapSample {
-    public static void main(String[] args) {
-        LinkedHashMap<String, String> accessOrderedMap = new LinkedHashMap<String, String>(16, 0.75F, true){
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<String, String> eldest) { // 实现自定义删除策略，否则行为就和普遍 Map 没有区别
-                return size() > 3;
-            }
-        };
-        accessOrderedMap.put("Project1", "Valhalla");
-        accessOrderedMap.put("Project2", "Panama");
-        accessOrderedMap.put("Project3", "Loom");
-        accessOrderedMap.forEach( (k,v) -> {
-            System.out.println(k +":" + v);
-        });
-        // 模拟访问
-        accessOrderedMap.get("Project2");
-        accessOrderedMap.get("Project2");
-        accessOrderedMap.get("Project3");
-        System.out.println("Iterate over should be not affected:");
-        accessOrderedMap.forEach( (k,v) -> {
-            System.out.println(k +":" + v);
-        });
-        // 触发删除
-        accessOrderedMap.put("Project4", "Mission Control");
-        System.out.println("Oldest entry should be removed:");
-        accessOrderedMap.forEach( (k,v) -> {// 遍历顺序不变
-            System.out.println(k +":" + v);
-        });
+    ``` java
+    import java.util.LinkedHashMap;
+    import java.util.Map;  
+    public class LinkedHashMapSample {
+        public static void main(String[] args) {
+            LinkedHashMap<String, String> accessOrderedMap = new LinkedHashMap<String, String>(16, 0.75F, true){
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<String, String> eldest) { // 实现自定义删除策略，否则行为就和普遍 Map 没有区别
+                    return size() > 3;
+                }
+            };
+            accessOrderedMap.put("Project1", "Valhalla");
+            accessOrderedMap.put("Project2", "Panama");
+            accessOrderedMap.put("Project3", "Loom");
+            accessOrderedMap.forEach( (k,v) -> {
+                System.out.println(k +":" + v);
+            });
+            // 模拟访问
+            accessOrderedMap.get("Project2");
+            accessOrderedMap.get("Project2");
+            accessOrderedMap.get("Project3");
+            System.out.println("Iterate over should be not affected:");
+            accessOrderedMap.forEach( (k,v) -> {
+                System.out.println(k +":" + v);
+            });
+            // 触发删除
+            accessOrderedMap.put("Project4", "Mission Control");
+            System.out.println("Oldest entry should be removed:");
+            accessOrderedMap.forEach( (k,v) -> {// 遍历顺序不变
+                System.out.println(k +":" + v);
+            });
+        }
     }
-}
-```
+    ```
 
 * 对于TreeMap ，它的整体顺序是由键的顺序关系决定的，通过Comparator或Comparable(自然顺序)来决定。
 
-上一讲的思考题提到了，构建一个具有优先级的调度系统的问题，其本质就是个典型的优先队列场景，Java标准库提供了基于二叉堆实现的PriorityQueue，它们都是依 赖于同一种排序机制，当然也包括TreeMap 的马甲TreeSet 。
-
-类似hashCode和equals的约定，为了避免模棱两可的情况，自然顺序同样需要符合一个约定，就是compareTo 的返回值需要和equals一致，否则就会出现模棱两可情况。 我们可以分析TreeMap 的put方法实现:
-
-``` java
-public V put(K key, V value) {
-    Entry<K,V> t = …
-    cmp = k.compareTo(t.key);
-    if (cmp < 0)
-        t = t.left;
-    else if (cmp > 0)
-        t = t.right;
-    else
-        return t.setValue(value);
-        // ...
-   }
-```
-
-从代码里，你可以看出什么呢? 当我不遵守约定时，两个不符合唯一性(equals)要求的对象被当作是同一个(因为，compareTo返回0)，这会导致歧义的行为表现。
+    上一讲的思考题提到了，构建一个具有优先级的调度系统的问题，其本质就是个典型的优先队列场景，Java标准库提供了基于二叉堆实现的PriorityQueue，它们都是依 赖于同一种排序机制，当然也包括TreeMap 的马甲TreeSet 。
+    
+    类似hashCode和equals的约定，为了避免模棱两可的情况，自然顺序同样需要符合一个约定，就是compareTo 的返回值需要和equals一致，否则就会出现模棱两可情况。 我们可以分析TreeMap 的put方法实现:
+    
+    ``` java
+    public V put(K key, V value) {
+        Entry<K,V> t = …
+        cmp = k.compareTo(t.key);
+        if (cmp < 0)
+            t = t.left;
+        else if (cmp > 0)
+            t = t.right;
+        else
+            return t.setValue(value);
+            // ...
+       }
+    ```
+    
+    从代码里，你可以看出什么呢? 当我不遵守约定时，两个不符合唯一性(equals)要求的对象被当作是同一个(因为，compareTo返回0)，这会导致歧义的行为表现。
 
 ### 2.HashMap源码分析
 
@@ -149,8 +149,8 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbent,
     Node<K,V>[] tab; Node<K,V> p; int , i;
     if ((tab = table) == null || (n = tab.length) = 0)
         n = (tab = resize()).length;
-    if ((p = tab[i = (n - 1) & hash]) == ull)
-        tab[i] = newNode(hash, key, value, nll);
+    if ((p = tab[i = (n - 1) & hash]) == null)
+        tab[i] = newNode(hash, key, value, null);
     else {
         // ...
         if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for first 
