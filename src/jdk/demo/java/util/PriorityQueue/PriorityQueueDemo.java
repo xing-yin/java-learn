@@ -1,4 +1,4 @@
-package jdk.java.util.PriorityQueue;
+package jdk.demo.java.util.PriorityQueue;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;

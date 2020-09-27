@@ -1,4 +1,4 @@
-package effectivejava.chapter1.item2;
+package effectivejava.chapter1.item2.good;
 
 /**
  * 【正例】builder pattern

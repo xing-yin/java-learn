@@ -1,4 +1,4 @@
-package effectivejava.chapter1.item2;
+package effectivejava.chapter1.item2.bad;
 
 /**
  * 【反例2】坏代码的味道

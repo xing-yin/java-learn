@@ -1,4 +1,4 @@
-package effectivejava.chapter1.item2;
+package effectivejava.chapter1.item2.good;
 
 /**
  * 标准的纽约风格的披萨

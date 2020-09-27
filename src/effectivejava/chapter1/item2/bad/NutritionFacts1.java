@@ -1,4 +1,4 @@
-package effectivejava.chapter1.item2;
+package effectivejava.chapter1.item2.bad;
 
 /**
  * 【反例1】坏代码的味道
@@ -18,7 +18,7 @@ public class NutritionFacts1 {
     private final int servingSize;
 
     /**
-     * per container:   required
+     * per container: required
      */
     private final int serving;
 

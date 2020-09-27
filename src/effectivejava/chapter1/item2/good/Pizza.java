@@ -1,4 +1,4 @@
-package effectivejava.chapter1.item2;
+package effectivejava.chapter1.item2.good;
 
 import java.util.EnumSet;
 import java.util.Objects;

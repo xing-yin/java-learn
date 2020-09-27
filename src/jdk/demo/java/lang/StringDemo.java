@@ -1,4 +1,4 @@
-package jdk.java.lang;
+package jdk.demo.java.lang;
 
 /**
  * @author Alan Yin
