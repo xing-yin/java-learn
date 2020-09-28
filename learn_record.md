@@ -55,7 +55,7 @@
 
 - 写反射的示例代码(invoke)[done]
 
-    见项目 lecture6
+    见项目 javacore.lecture6
 
 - Facade、Observer 等很多设计目的，都可以通过动态代理优雅地实现。具体实现代码练习
 

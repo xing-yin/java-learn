@@ -3,8 +3,8 @@ JDK源码阅读顺序
 
 ## 1、java.lang
 
-1) Object 1 [done]
-2) String 1
+1) Object 1 [done]（20200417）
+2) String 1 [done] （20191224）
 3) AbstractStringBuilder 1
 4) StringBuffer 1
 5) StringBuilder 1
@@ -33,7 +33,7 @@ JDK源码阅读顺序
 1) AbstractList 1
 2) AbstractMap 1
 3) AbstractSet 1
-4) ArrayList 1
+4) ArrayList 1  [done] (20200927)
 5) LinkedList 1
 6) HashMap 1
 7) Hashtable 1
@@ -146,8 +146,16 @@ JDK源码阅读顺序
 5) URLEncoder 4
 
 
+### 备注
+
+数字代表了优先级，数字越小优先级越高
+
 ## todo
 
 ### 20200826
 
 - 阅读小结 ReentrantLock 源码
+
+### 20200928 - HashMap
+
+- 为什么 HashMap 不是线程安全的？根源在哪？

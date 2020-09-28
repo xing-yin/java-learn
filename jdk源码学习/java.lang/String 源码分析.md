@@ -17,7 +17,7 @@ String 是 Java 语言非常基础和重要的类，提供了构造和管理字�
 
 ## 属性
 
-```java
+``` java
 	/** The value is used for character storage. */
     private final char value[];
 
@@ -33,7 +33,7 @@ String 是 Java 语言非常基础和重要的类，提供了构造和管理字�
 
 String 的构造方法很多，下面主要介绍几种典型的代表，其他可以参考理解。
 
-```java
+``` java
 // 参数为 String 类型
 public String(String original) {
         this.value = original.value;
@@ -61,7 +61,7 @@ public String(byte bytes[], int offset, int length, String charsetName)
 
 ### equals(Object anObject) 方法
 
-```java
+``` java
 public boolean equals(Object anObject) {
 		 // 如果引用的是同一个对象，返回 true
         if (this == anObject) {
@@ -99,7 +99,7 @@ public boolean equals(Object anObject) {
 
 ### hashCode() 方法
 
-```java
+``` java
 public int hashCode() {
         int h = hash;
         // hash 值没有被计算过，且字符串不为空
@@ -121,7 +121,7 @@ public int hashCode() {
 
 ### compareTo(String anotherString) 方法
 
-```java
+``` java
 public int compareTo(String anotherString) {
 		  // 自身字符串长度 len1
         int len1 = value.length;
@@ -151,7 +151,7 @@ public int compareTo(String anotherString) {
 
 ### startsWith(String prefix, int toffset) 方法
 
-```java
+``` java
 public boolean startsWith(String prefix, int toffset) {
         char ta[] = value;
         int to = toffset;
@@ -183,7 +183,7 @@ public boolean startsWith(String prefix) {
 
 ### replace(char oldChar, char newChar) 方法
 
-```java
+``` java
 public String replace(char oldChar, char newChar) {
 		  // 新旧值对比
         if (oldChar != newChar) {
@@ -221,7 +221,7 @@ public String replace(char oldChar, char newChar) {
 
 ## trim() 方法
 
-```java
+``` java
 public String trim() {
         int len = value.length;
         int st = 0;
@@ -241,7 +241,7 @@ public String trim() {
 
 ### intern() 方法
 
-```java
+``` java
 public native String intern();
 ```
 
