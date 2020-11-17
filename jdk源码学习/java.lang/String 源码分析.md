@@ -18,7 +18,7 @@ String 是 Java 语言非常基础和重要的类，提供了构造和管理字�
 ## 属性
 
 ``` java
-	/** The value is used for character storage. */
+    /** The value is used for character storage. */
     private final char value[];
 
     /** Cache the hash code for the string */
@@ -123,7 +123,7 @@ public int hashCode() {
 
 ``` java
 public int compareTo(String anotherString) {
-		  // 自身字符串长度 len1
+		// 自身字符串长度 len1
         int len1 = value.length;
         // 被比较字符串长度 len2
         int len2 = anotherString.value.length;
@@ -164,7 +164,7 @@ public boolean startsWith(String prefix, int toffset) {
             return false;
         }
         while (--pc >= 0) {
-        	  // 从头开始比较
+        	// 从头开始比较
             if (ta[to++] != pa[po++]) {
                 return false;
             }
@@ -185,13 +185,13 @@ public boolean startsWith(String prefix) {
 
 ``` java
 public String replace(char oldChar, char newChar) {
-		  // 新旧值对比
+		// 新旧值对比
         if (oldChar != newChar) {
             int len = value.length;
             int i = -1;
             char[] val = value; /* avoid getfield opcode */
 
-			  // 找到旧值最开始出现的位置，节约比对的成本
+			// 找到旧值最开始出现的位置，节约比对的成本
             while (++i < len) {
                 if (val[i] == oldChar) {
                     break;
