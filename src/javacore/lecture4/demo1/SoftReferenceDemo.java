@@ -21,7 +21,7 @@ public class SoftReferenceDemo {
         Object obj = new Object();
         ReferenceQueue queue = new ReferenceQueue();
         SoftReference reference = new SoftReference(obj, queue);
-        // 亲啊个饮用对象置 null,保留软引用
+        // 亲自将引用对象置 null,保留软引用
         obj = null;
     }
 
