@@ -3,6 +3,9 @@ package topic.ThreadLocal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 如何保证 SimpleDateFormat 的线程安全
@@ -65,5 +68,25 @@ public class GoodSimpleDateFormatDemo {
         return getSimpleDateFormat().parse(dateStr);
     }
 
+
+
+    public static void main(String[] args) throws InterruptedException {
+        ExecutorService service = Executors.newFixedThreadPool(100);
+        for (int i = 0; i < 20; i++) {
+            service.execute(() -> {
+                for (int j = 0; j < 10; j++) {
+                    try {
+//                        System.out.println(parse1("2020-01-01 09:45:59"));
+//                        System.out.println(parse2("2020-01-01 09:45:59"));
+                        System.out.println(parse3("2020-01-01 09:45:59"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        service.shutdown();
+        service.awaitTermination(1, TimeUnit.DAYS);
+    }
 
 }

@@ -18,8 +18,13 @@ public class MyInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        String methodName = method.getName();
+        if ("sayHello".equals(methodName)) {
+            System.out.println("change method");
+            return null;
+        }
         System.out.println("invoke method");
-        Object result = method.invoke(target,args);
+        Object result = method.invoke(target, args);
         return result;
     }
 }

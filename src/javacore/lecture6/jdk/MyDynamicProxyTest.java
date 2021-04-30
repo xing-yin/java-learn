@@ -21,6 +21,5 @@ public class MyDynamicProxyTest {
                 handler);
         // 代理调用方法
         proxyInstance.sayHello();
-
     }
 }

@@ -16,11 +16,15 @@ public class SimpleDateFormatBugTest {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    private Object lock = new Object();
+
     public static String format(Date date) {
         return dateFormat.format(date);
     }
 
     public static Date parse(String dateStr) throws ParseException {
+
+
         return dateFormat.parse(dateStr);
     }
 
