@@ -16,10 +16,12 @@ public class MyDynamicProxyTest {
         HelloInterface hello = new HelloImpl();
         MyInvocationHandler handler = new MyInvocationHandler(hello);
         // 构造代码实例
-        HelloInterface proxyInstance = (HelloInterface) Proxy.newProxyInstance(HelloImpl.class.getClassLoader(),
+        HelloInterface proxyInstance = (HelloInterface) Proxy.newProxyInstance(
+                HelloImpl.class.getClassLoader(),
                 HelloImpl.class.getInterfaces(),
                 handler);
         // 代理调用方法
         proxyInstance.sayHello();
+        proxyInstance.noProxyMethod();
     }
 }

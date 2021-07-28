@@ -9,6 +9,12 @@ public class HelloImpl implements HelloInterface {
 
     @Override
     public void sayHello() {
-        System.out.println("hello proxy");
+        System.out.println("proxyMethod:sayHello");
     }
+
+    @Override
+    public void noProxyMethod() {
+        System.out.println("noProxyMethod");
+    }
+    
 }

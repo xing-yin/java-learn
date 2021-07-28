@@ -45,7 +45,7 @@ protected final Class<?> defineClass(String name, java.nio.ByteBuffer b,
 
 > 这里只选取了最基础的两个典型的defneClass实现，Java重载了几个不同的方法。 
 
-可以看出**，只要能够生成出规范的字节码，不管是作为byte数组的形式，还是放到ByteBufer里，都可以完成字节码到Java对象的转换过程**。 
+可以看出，**只要能够生成出规范的字节码，不管是作为byte数组的形式，还是放到ByteBufer里，都可以完成字节码到Java对象的转换过程**。 
 
 JDK提供的defneClass方法，最终都是本地代码实现的。
 
@@ -103,7 +103,7 @@ private void codeLocalLoadStore(int lvar, int opcode, int opcode_0,
 
 这种实现方式的好处是**没有太多依赖关系，简单实用，但是前提是你需要懂各种JVM指令，知道怎么处理那些偏移地址等，实际门槛非常高**，所以并不适合大多数的普通开发场景。
 
-幸好，Java社区专家提供了各种从底层到更高抽象水平的字节码操作类库，不需要什么都自己从头做。JDK内部就集成了ASM类库，虽然并未作为公共API暴露出来，但是它广 泛应用在，如java.lang.instrumentation API底层实现，或者Lambda Call Site生成的内部逻辑中，这如果有需要，可以参考类似LamdaForm的字节码生成逻辑:[java.lang.invoke.InvokerBytecodeGenerator](http://hg.openjdk.java.net/jdk/jdk/file/29169633327c/src/java.base/share/classes/java/lang/invoke/InvokerBytecodeGenerator.java)。
+幸好，Java社区专家提供了各种从底层到更高抽象水平的字节码操作类库，不需要什么都自己从头做。JDK内部就集成了ASM类库，虽然并未作为公共API暴露出来，但是它广泛应用在，如java.lang.instrumentation API底层实现，或者Lambda Call Site生成的内部逻辑中，这如果有需要，可以参考类似LamdaForm的字节码生成逻辑:[java.lang.invoke.InvokerBytecodeGenerator](http://hg.openjdk.java.net/jdk/jdk/file/29169633327c/src/java.base/share/classes/java/lang/invoke/InvokerBytecodeGenerator.java)。
 
 > 从实用的角度思考一下，实现一个简单的动态代理，都要做什么? 如何使用字节码操纵技术，走通这个过程呢? 
 
@@ -149,7 +149,7 @@ mv.visitCode();
 cw.visitEnd();                      // 结束类字节码生成
 ```
 
-上面的代码虽然有些晦涩，但总体还是能理解其用意**，不同的visitX方法提供了创建类型，创建各种方法等逻辑**。
+上面的代码虽然有些晦涩，但总体还是能理解其用意，**不同的visitX方法提供了创建类型，创建各种方法等逻辑**。
 
 > ASM API，广泛的使用了[Visitor](https://en.wikipedia.org/wiki/Visitor_pattern)模式，如果你熟悉这个模式， 就会知道它所针对的场景是将算法和对象结构解耦，非常适合字节码操纵的场合，因为大部分情况都是依赖于特定结构修改或者添加新的方法、变量或者类型等。
 
@@ -165,7 +165,7 @@ cw.visitEnd();                      // 结束类字节码�
 
 * 各种Mock框架
 * ORM框架
-* IOC容器 部分Profler工具，或者运行时诊断工具等 
+* IOC容器，部分Profler工具，或者运行时诊断工具等 
 * 生成形式化代码的工具
 
 甚至可以认为，字节码操纵技术是工具和基础框架必不可少的部分，大大减少了开发者的负担。
@@ -173,7 +173,7 @@ cw.visitEnd();                      // 结束类字节码�
 本节更加深入的类加载和字节码操作方面技术。为了理解底层的原理，我选取的例子是比较偏底层的、能力全面的类库，如果实际项目中需要进行基础的字节码操作，可以考虑使用更加高层次视角的类库，例如Byte Buddy等。
 
 ## 一课一练
-假如我们有这样一个需求，需要添加某个功能，例如对某类型资源如网络通信的消耗进行统计，重点要求是，不开启时必须 是**零开销，而不是低开销，**可以利用我们今天谈到的或者相关的技术实现吗?
+假如我们有这样一个需求，需要添加某个功能，例如对某类型资源如网络通信的消耗进行统计，重点要求是，不开启时必须 是**零开销，而不是低开销**，可以利用我们今天谈到的或者相关的技术实现吗?
 
 ```
 参考方案1:(Java 探针)【推荐】

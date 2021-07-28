@@ -11,4 +11,9 @@ public interface HelloInterface {
      * 代理的目标方法
      */
     void sayHello();
+
+    /**
+     * 未被代理处理的方法
+     */
+    void noProxyMethod();
 }

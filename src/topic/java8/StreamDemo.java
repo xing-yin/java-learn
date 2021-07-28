@@ -1,4 +1,4 @@
-package topic.stream_lambda;
+package topic.java8;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -269,8 +269,7 @@ public class StreamDemo {
      * Lambda表达式 vs 匿名类
      *
      * - 一个关键的不同点就是关键字 this。匿名类的 this 关键字指向匿名类，而lambda表达式的 this 关键字指向包围lambda表达式的类。
-     * - 另一个不同点是二者的编译方式。Java编译器将lambda表达式编译成类的私有方法。
-     *      使用了Java 7的 invokedynamic 字节码指令来动态绑定这个方法。
+     * - 另一个不同点是二者的编译方式。Java编译器将lambda表达式编译成类的私有方法。使用了Java 7的 invokedynamic 字节码指令来动态绑定这个方法。
      */
 
 }

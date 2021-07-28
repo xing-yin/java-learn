@@ -17,7 +17,7 @@
 
 可以考虑使用Java Compiler API，这是JDK提供的标准API，里面提供了与javac对等的编译器功能，具体请参考[java.compiler](https://docs.oracle.com/javase/9/docs/api/javax/tools/package-summary.html)相关文档。
 
-> 进一步思考，我们一直围绕Java源码编译成为JVM可以理解的字节码，换句话说，只要是符合JVM规范的字节码，不管它是如何生成的，是不是都可以被JVM加载呢?我们能不能直 接生成相应的字节码，然后交给类加载器去加载呢?
+> 进一步思考，我们一直围绕Java源码编译成为JVM可以理解的字节码，换句话说，只要是符合JVM规范的字节码，不管它是如何生成的，是不是都可以被JVM加载呢?我们能不能直接生成相应的字节码，然后交给类加载器去加载呢?
 
 当然可以，不过直接去写字节码难度太大，通常我们可以利**用Java字节码操纵工具和类库来实现**，比如 ASM、Javassist、cglib等。
 

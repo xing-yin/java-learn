@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cglib</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>cglib-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cglib</name>
 	<description>Demo project for cglib</description>
