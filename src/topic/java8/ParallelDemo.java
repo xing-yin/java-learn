@@ -24,13 +24,13 @@ public class ParallelDemo {
 
         System.out.println("testParallel 并行Stream开始排序");
         long begin = System.currentTimeMillis();
-        list.stream().sorted().count();
+        list.parallelStream().sorted().count();
         System.out.println("testParallel 并行Stream完成排序，耗时:" + (System.currentTimeMillis() - begin));
     }
 
     private static ArrayList<String> costTimeOperation() {
-        ArrayList<String> list = new ArrayList<>(50000000);
-        for (int i = 0; i < 50000000; i++) {
+        ArrayList<String> list = new ArrayList<>(5000000);
+        for (int i = 0; i < 5000000; i++) {
             list.add(UUID.randomUUID().toString());
         }
         return list;
