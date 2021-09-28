@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 如何保证 SimpleDateFormat 的线程安全
+ * 演示：如何保证 SimpleDateFormat 的线程安全
  *
  * @author Alan Yin
  * @date 2020/8/27
@@ -67,7 +67,6 @@ public class GoodSimpleDateFormatDemo {
     public static Date parse3(String dateStr) throws ParseException {
         return getSimpleDateFormat().parse(dateStr);
     }
-
 
 
     public static void main(String[] args) throws InterruptedException {
