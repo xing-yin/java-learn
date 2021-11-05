@@ -15,11 +15,11 @@ import java.util.UUID;
 public class HashMapDemo {
 
     public static void main(String[] args) {
-        methodTest();
+//        methodTest();
 
         deadLockTest();
 
-        iteratorTest();
+//        iteratorTest();
     }
 
     /**
