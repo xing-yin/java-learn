@@ -21,6 +21,7 @@ public class Demo {
             cacheDataSource.getDataSource();
         }
         System.out.println("当前线程上线文类加载器 : " + Thread.currentThread().getContextClassLoader());
+        // null: 对应的是 BootstrapClassLoader
         System.out.println("ServiceLoader的类加载器 : " + ServiceLoader.class.getClassLoader());
     }
 }

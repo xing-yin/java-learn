@@ -1,4 +1,4 @@
-# Java线程上下文加载器与SPI
-# 步骤3：新建META-INF/services/目录，然后新建接口全限定名的文件，里面加上我们需要用到的实现类
-topic.spi.MemoryCacheDataSource
-topic.spi.DatabaseCacheDataSource
+## Java线程上下文加载器与SPI
+## 步骤3：新建META-INF/services/目录，然后新建接口全限定名的文件，里面加上我们需要用到的实现类
+#topic.spi.MemoryCacheDataSource
+#topic.spi.DatabaseCacheDataSource
