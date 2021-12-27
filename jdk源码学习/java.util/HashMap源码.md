@@ -1,5 +1,3 @@
-
-
 HashMap 源码学习
 ====
 
@@ -60,10 +58,9 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbent,
 		resize();
 
 * 具体键值对在哈希表中的位置(数组index)取决于下面的位运算:
-  
+     
     	i=(n-1)&hash
-    
-
+     
 仔细观察哈希值的源头，我们会发现，它并不是key本身的hashCode，而是来自于HashMap内部的另外一个hash方法。
 
 注意，为什么这里需要将高位数据移位到低位进行异或运算呢?
@@ -131,9 +128,9 @@ final Node<K,V>[] resize() {
 - 既然容量和负载因子这么重要，我们在实践中应该如何选择呢?
 
 如果能够知道HashMap要存取的键值对数量，可以考虑预先设置合适的容量大小。具体数值我们可以根据扩容发生的条件来做简单预估，根据前面的代码分析，我们知道它需要符合计算条件:
-
+  
 	负载因子 * 容量 > 元素数量
-
+	
 所以，**预先设置的容量需要满足，大于“预估元素数量/负载因子”，同时它是2的幂数，** 结论已经非常清晰了。
 
 - 对于负载因子，我建议:
@@ -168,211 +165,3 @@ final void treeifyBin(Node<K,V>[] tab, int hash) {
 而在现实世界，构造哈希冲突的数据并不是非常复杂的事情，恶意代码就可以利用这些数据大量与服务器端交互，导致服务器端CPU大量占用，这就构成了哈希碰撞拒绝服务攻击， 国内一线互联网公司就发生过类似攻击事件。
 
 本节从Map相关的几种实现对比，对各种Map进行了分析，讲解了有序集合类型容易混淆的地方，并从源码级别分析了HashMap的基本结构。
-
-
-
-------
-
-
-
-## put 方法
-
-```java
-public V put(K key, V value) {
-        return putVal(hash(key), key, value, false, true);
-}
-```
-
-```java
-static final int hash(Object key) {
-        int h;
-  			// key 的 hashcode 、key 的 hashcode 右移 16 位，两者再异或（目的是减少 hash 冲突）
-  			// >>>:无符号右移，忽略符号位，空位都以0补齐
-        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
-}
-```
-
-
-
-```java
-final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
-                   boolean evict) {
-        Node<K,V>[] tab; Node<K,V> p; int n, i;
-  			// 1.判断当前桶是否为空：为空则初始化（resize 方法中会判断是否需要初始化，即同时可以调整容量或者初始化）
-        if ((tab = table) == null || (n = tab.length) == 0)
-            n = (tab = resize()).length;
-  			// 2.根据当前 key 的 hashcode 定位到具体桶，并判断是否为空：为空则没有 hash 冲突，直接在当前位置新建新桶
-        if ((p = tab[i = (n - 1) & hash]) == null)
-            tab[i] = newNode(hash, key, value, null);
-        else {
-            Node<K,V> e; K k;
-          	// 3.当前桶有值（即存在 hash 冲突），比较当前桶的 key、key 的 hashcode、写入的 key 是否相等，
-            // 相等就赋值给 e,在第 8 步统一赋值并返回
-            if (p.hash == hash &&
-                ((k = p.key) == key || (key != null && key.equals(k))))
-                e = p;
-            // 4.如果是红黑树，则按红黑树方式操作
-            else if (p instanceof TreeNode)
-                e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
-            else {
-              	// 5.如果是链表，则将当前 key、value 封装成一个新节点写入当前桶的后面（还是链表）
-                for (int binCount = 0; ; ++binCount) {
-                    if ((e = p.next) == null) {
-                        p.next = newNode(hash, key, value, null);
-                      	// 6.判断当前链表的长度是否大于树化的阈值：大于则转换为红黑树（默认为 8）
-                        if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
-                            treeifyBin(tab, hash);
-                        break;
-                    }
-                  	// 7.如果遍历时找到相同 key，则直接退出
-                    if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k))))
-                        break;
-                    p = e;
-                }
-            }
-          	// 8.e != null 意味着有相同的 key,则覆盖旧值
-            if (e != null) { // existing mapping for key
-                V oldValue = e.value;
-                if (!onlyIfAbsent || oldValue == null)
-                    e.value = value;
-                afterNodeAccess(e);
-                return oldValue;
-            }
-        }
-        ++modCount;
-  			// 9.最后判断是否需要扩容
-        if (++size > threshold)
-            resize();
-        afterNodeInsertion(evict);
-        return null;
-    }
-```
-
-
-
-Todo resize
-
-```java
-final Node<K,V>[] resize() {
-        Node<K,V>[] oldTab = table;
-        int oldCap = (oldTab == null) ? 0 : oldTab.length;
-        int oldThr = threshold;
-        int newCap, newThr = 0;
-        if (oldCap > 0) {
-            if (oldCap >= MAXIMUM_CAPACITY) {
-                threshold = Integer.MAX_VALUE;
-                return oldTab;
-            }
-            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
-                     oldCap >= DEFAULT_INITIAL_CAPACITY)
-                newThr = oldThr << 1; // double threshold
-        }
-        else if (oldThr > 0) // initial capacity was placed in threshold
-            newCap = oldThr;
-        else {               // zero initial threshold signifies using defaults
-            newCap = DEFAULT_INITIAL_CAPACITY;
-            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
-        }
-        if (newThr == 0) {
-            float ft = (float)newCap * loadFactor;
-            newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
-                      (int)ft : Integer.MAX_VALUE);
-        }
-        threshold = newThr;
-        @SuppressWarnings({"rawtypes","unchecked"})
-            Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
-        table = newTab;
-        if (oldTab != null) {
-            for (int j = 0; j < oldCap; ++j) {
-                Node<K,V> e;
-                if ((e = oldTab[j]) != null) {
-                    oldTab[j] = null;
-                    if (e.next == null)
-                        newTab[e.hash & (newCap - 1)] = e;
-                    else if (e instanceof TreeNode)
-                        ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
-                    else { // preserve order
-                        Node<K,V> loHead = null, loTail = null;
-                        Node<K,V> hiHead = null, hiTail = null;
-                        Node<K,V> next;
-                        do {
-                            next = e.next;
-                            if ((e.hash & oldCap) == 0) {
-                                if (loTail == null)
-                                    loHead = e;
-                                else
-                                    loTail.next = e;
-                                loTail = e;
-                            }
-                            else {
-                                if (hiTail == null)
-                                    hiHead = e;
-                                else
-                                    hiTail.next = e;
-                                hiTail = e;
-                            }
-                        } while ((e = next) != null);
-                        if (loTail != null) {
-                            loTail.next = null;
-                            newTab[j] = loHead;
-                        }
-                        if (hiTail != null) {
-                            hiTail.next = null;
-                            newTab[j + oldCap] = hiHead;
-                        }
-                    }
-                }
-            }
-        }
-        return newTab;
-}
-```
-
-> HashMap 扩容的时候会调用 `resize()` 方法，就是这里的并发操作容易在一个桶上形成环形链表；这样当获取一个不存在的 key 时，计算出的 index 正好是环形链表的下标就会出现死循环。
-
-
-
-## get 方法
-
-```java
-public V get(Object key) {
-        Node<K,V> e;
-  			// 先将 key hash 后定位桶
-        return (e = getNode(hash(key), key)) == null ? null : e.value;
-}
-```
-
-
-
-```java
- final Node<K,V> getNode(int hash, Object key) {
-        Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
-   			// 1.判断桶是否为空：为空直接返回null;否则判断桶长度大于0、第一个元素不为空
-        if ((tab = table) != null && (n = tab.length) > 0 &&
-            (first = tab[(n - 1) & hash]) != null) {
-          	// 2.判断桶的第一个位置(可能是链表或红黑树)的 key 是否为查询的 key，是则返回 value
-            if (first.hash == hash && // always check first node
-                ((k = first.key) == key || (key != null && key.equals(k))))
-                return first;
-          	// 3.第一个元素不匹配，判断是红黑树还是链表
-            if ((e = first.next) != null) {
-              	// 4.是红黑树则按红黑树方式查找返回
-                if (first instanceof TreeNode)
-                    return ((TreeNode<K,V>)first).getTreeNode(hash, key);
-              	// 5.是链表则按链表遍历的方式查找返回
-                do {
-                    if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k))))
-                        return e;
-                } while ((e = e.next) != null);
-            }
-        }
-        return null;
-    }
-```
-
-可见，相比于 jdk 1.7 的链表实现，1.8 对长链表进行了优化，改为**「红黑树」**后查询效率**从 O(n) 优化为了 O(logn)**。
-
-
-
