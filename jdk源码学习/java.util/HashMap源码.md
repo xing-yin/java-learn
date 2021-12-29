@@ -3,13 +3,13 @@
 HashMap 源码学习
 ====
 
-HashMap设计与实现是个非常高频的面试题，所以我会在这进行相对详细的源码解读，主要围绕: 
+HashMap设计与实现是个非常高频的面试题，我会在这进行相对详细的源码解读，主要围绕: 
 
 * HashMap内部实现基本点分析
 * 容量(capcity)和负载系数(load factor)
 * 树化 
 
-首先，我们来一起看看HashMap内部的结构，它可以看作是数组(Node[] table)和链表结合组成的复合结构，数组被分为一个个桶(bucket)，通过哈希值决定了键值对在这个 数组的寻址;哈希值相同的键值对，则以链表形式存储，你可以参考下面的示意图。这里需要注意的是，**如果链表大小超过阈值(TREEIFY_THRESHOLD, 8)**，图中的链表就会被改造为树形结构。
+首先，我们来一起看看 HashMap 内部的结构，它可以看作是数组(Node[] table)和链表结合组成的复合结构，数组被分为一个个桶(bucket)，通过哈希值决定了键值对在这个 数组的寻址;哈希值相同的键值对，则以链表形式存储，你可以参考下面的示意图。这里需要注意的是，**如果链表大小超过阈值(TREEIFY_THRESHOLD, 8)**，图中的链表就会被改造为树形结构。
 
 <div align="center"> <img src="pics/9-2.png" width="500" style="zoom:100%"/> </div><br>
 
@@ -25,9 +25,11 @@ public HashMap(int initialCapacity, float loadFactor){
 
 所以，我们深刻怀疑，HashMap也许是按照lazy-load原则，在首次使用时被初始化(拷贝构造函数除外，我这里仅介绍最通用的场景)。既然如此，我们去看看put方法实现，似 乎只有一个putVal的调用:
 
-	    public V put(K key, V value) {
-			return putVal(hash(key), key, value, false, true);
-		}
+```java
+public V put(K key, V value) {
+		return putVal(hash(key), key, value, false, true);
+}
+```
 
 看来主要的秘密似乎藏在putVal里面，到底有什么秘密呢?为了节省空间，我这里只截取了putVal比较关键的几部分。
 
