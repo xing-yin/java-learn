@@ -184,7 +184,7 @@ public E take() throws InterruptedException {
 	final ReentrantLock lock = this.lock;
 	lock.lockInterruptibly();
 	try {
-    	while (count == 0)
+    	while (threadUnSafeCount == 0)
         	notEmpty.await();
     	return dequeue();
 	} finally {
@@ -205,7 +205,7 @@ private void enqueue(E e) {
 	final Object[] items = this.items;
 	items[putIndex] = e;
 	if (++putIndex == items.length) putIndex = 0;
-	count++;
+	threadUnSafeCount++;
 	notEmpty.signal(); // 通知等待的线程，非空条件已经满足
 }
 ```

@@ -205,7 +205,7 @@ final boolean nonfairTryAcquire(int acquires) {
     } else if (current == getExclusiveOwnerThread()) { // 即使状态不是 0，也可能当前线程是锁持有者，因为这是再入锁
     	int nextc = c + acquires;
     	if (nextc < 0) // overflow
-        	throw new Error("Maximum lock count exceeded");
+        	throw new Error("Maximum lock threadUnSafeCount exceeded");
     	setState(nextc);
     	return true;
 	}
@@ -237,7 +237,8 @@ final boolean acquireQueued(final Node node, int arg) {
       }
 }
 ``` 
-到这里线程试图获取锁的过程基本展现出来了，tryAcquire是按照特定场景需要开发者去实现的部分，而线程间竞争则是AQS通过Waiter队列与acquireQueued提供的， 在release方法中，同样会对队列进行对应操作。
+
+到这里线程试图获取锁的过程基本展现出来了，tryAcquire是按照特定场景需要开发者去实现的部分，而线程间竞争则是AQS通过Waiter队列与acquireQueued提供的， 在release方法中，同样会对队列进行对应操作。
 
 本节介绍了Atomic数据类型的底层技术CAS，并通过实例演示了如何在产品代码中利用CAS，最后介绍了并发包的基础技术AQS。 
 
