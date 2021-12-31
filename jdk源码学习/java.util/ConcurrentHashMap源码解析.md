@@ -58,7 +58,7 @@ static final class Segment<K,V> extends ReentrantLock implements Serializable {
          * The number of elements. Accessed only either within locks
          * or among other volatile reads that maintain visibility.
          */
-        transient int count;
+        transient int threadUnSafeCount;
 
         /**
          * The total number of mutative operations in this segment.
@@ -161,13 +161,13 @@ final V put(K key, int hash, V value, boolean onlyIfAbsent) {
                             node.setNext(first);
                         else
                             node = new HashEntry<K,V>(hash, key, value, first);
-                        int c = count + 1;
+                        int c = threadUnSafeCount + 1;
                         if (c > threshold && tab.length < MAXIMUM_CAPACITY)
                             rehash(node);
                         else
                             setEntryAt(tab, index, node);
                         ++modCount;
-                        count = c;
+                        threadUnSafeCount = c;
                         oldValue = null;
                         break;
                     }

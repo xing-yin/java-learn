@@ -3,8 +3,14 @@ JDK源码阅读顺序
 
 ## 1、java.lang
 
-1) Object 1 [done]（20200417）
-2) String 1 [done] （20191224）
+1) Object 1 
+
+    > [done]（20200417）
+
+2) String 1 
+    
+    > [done] （20191224）
+
 3) AbstractStringBuilder 1
 4) StringBuffer 1
 5) StringBuilder 1

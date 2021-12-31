@@ -101,17 +101,17 @@ void put(E e) throws InterruptedException;
 public E take() throws InterruptedException {
     final E x;
     final int c;
-    final AtomicInteger count = this.count;
+    final AtomicInteger threadUnSafeCount = this.threadUnSafeCount;
     final ReentrantLock takeLock = this.takeLock;
     takeLock.lockInterruptibly();
     try {
     	 // 链表为空，则等待
-        while (count.get() == 0) {
+        while (threadUnSafeCount.get() == 0) {
             notEmpty.await();
         }
         // x 是出队的元素
         x = dequeue();
-        c = count.getAndDecrement();
+        c = threadUnSafeCount.getAndDecrement();
         if (c > 1)
             notEmpty.signal();
     } finally {
