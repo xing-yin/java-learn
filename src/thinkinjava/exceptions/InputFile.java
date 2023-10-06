@@ -1,4 +1,3 @@
-package thinkinjava.exceptions;
 package thinkinjava.exceptions;//: exceptions/InputFile.java
 // Paying attention to exceptions in constructors.
 
